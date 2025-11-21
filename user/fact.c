@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 {
   // Check for help command - must be exactly "?"
   if(argc == 2 && strcmp(argv[1], "?") == 0){
-    printf("Usage: factorial number\n");
+    printf("Usage: fact number\n");
     exit(0);
   }
 
