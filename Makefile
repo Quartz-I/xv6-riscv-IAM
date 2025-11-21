@@ -125,6 +125,8 @@ mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
 UPROGS=\
 	$U/_add\
 	$U/_fact\
+	$U/_touch\
+	$U/_add\
 	$U/_cat\
 	$U/_echo\
 	$U/_forktest\
