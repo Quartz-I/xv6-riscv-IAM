@@ -5,6 +5,14 @@
 #include "user/user.h"
 
 int
+factorial(int n)
+{
+  if(n == 0 || n == 1)
+    return 1;
+  return n * factorial(n - 1);
+}
+
+int
 is_valid_number(char *s)
 {
   // Check for negative sign
@@ -26,57 +34,41 @@ is_valid_number(char *s)
   return 1;
 }
 
-int
-my_atoi(char *s)
-{
-  int n = 0;
-  int negative = 0;
-
-  // Check for negative sign
-  if(*s == '-'){
-    negative = 1;
-    s++;
-  }
-
-  // Convert digits
-  while('0' <= *s && *s <= '9'){
-    n = n * 10 + (*s - '0');
-    s++;
-  }
-
-  return negative ? -n : n;
-}
-
 int main(int argc, char *argv[])
 {
   // Check for help command - must be exactly "?"
   if(argc == 2 && strcmp(argv[1], "?") == 0){
-    printf("Usage: add number1 number2\n");
+    printf("Usage: factorial number\n");
     exit(0);
   }
 
-  // Check if anything follows the question mark
+  // Check if anything follows the question mark (with or without space)
   if(argc >= 2 && argv[1][0] == '?'){
     printf("Error: invalid input after '?'\n");
     exit(1);
   }
 
   // Check for correct number of arguments
-  if(argc != 3){
-    printf("error can only take 2 integers \n");
+  if(argc != 2){
+    printf("Error: You can only get the factorial of a single positive number\n");
     exit(1);
   }
 
-  // Check if both inputs are valid numbers
-  if(!is_valid_number(argv[1]) || !is_valid_number(argv[2])){
-    printf("Error: inputs are not valid numbers\n");
+  // Check for negative number
+  if(argv[1][0] == '-'){
+    printf("Error: You can only get the factorial of a single positive number\n");
     exit(1);
   }
 
-  int num1 = my_atoi(argv[1]);
-  int num2 = my_atoi(argv[2]);
-  int sum = num1 + num2;
-  printf("sum = %d\n", sum);
+  // Check if input is a valid number
+  if(!is_valid_number(argv[1])){
+    printf("Error: input is not a valid number\n");
+    exit(1);
+  }
+
+  int num = atoi(argv[1]);
+  int result = factorial(num);
+  printf("factorial = %d\n", result);
 
   exit(0);
 }
