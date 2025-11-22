@@ -34,7 +34,8 @@ is_valid_number(char *s)
   return 1;
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
   // Check for help command - must be exactly "?"
   if(argc == 2 && strcmp(argv[1], "?") == 0){

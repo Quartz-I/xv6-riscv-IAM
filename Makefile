@@ -126,6 +126,8 @@ UPROGS=\
 	$U/_add\
 	$U/_fact\
 	$U/_sleep\
+	$U/_cp\
+	$U/_mv\
 	$U/_touch\
 	$U/_cat\
 	$U/_echo\

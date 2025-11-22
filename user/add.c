@@ -47,7 +47,8 @@ my_atoi(char *s)
   return negative ? -n : n;
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
   // Check for help command - must be exactly "?"
   if(argc == 2 && strcmp(argv[1], "?") == 0){
