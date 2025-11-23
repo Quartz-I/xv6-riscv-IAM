@@ -359,6 +359,7 @@ sys_open(void)
   f->ip = ip;
   f->readable = !(omode & O_WRONLY);
   f->writable = (omode & O_WRONLY) || (omode & O_RDWR);
+  f->append = (omode & O_APPEND) ? 1 : 0;  // 221004510
 
   if((omode & O_TRUNC) && ip->type == T_FILE){
     itrunc(ip);
