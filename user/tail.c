@@ -10,6 +10,22 @@ char buf[BUF_SIZE];
 char *lines[MAX_LINES];
 int line_count = 0;
 
+
+void
+usage(void)
+{
+  printf(
+    "Usage: tail [OPTION] [FILE]\n"
+    "Print the last 10 lines of each FILE to standard output.\n"
+    "With more than one FILE, precede each with a header.\n"
+    "Options:\n"
+    "  -n N      print the last N lines instead of the last 10\n"
+    "  -N        same as -n N\n"
+    "  -?        display this help and exit\n"
+  );
+}
+
+
 void
 tail(int fd, int n)
 {
@@ -109,6 +125,11 @@ main(int argc, char *argv[])
   int fd;
   int n = DEFAULT_LINES;
   int arg_idx = 1;
+
+  if (argc > 1 && (strcmp(argv[1], "?") == 0 || strcmp(argv[1], "-?") == 0)) {
+  usage();
+  exit(0);
+}
 
   // Parse -n flag
   if(argc > 1 && argv[1][0] == '-') {
