@@ -26,15 +26,4 @@
 #define SYS_datetime 25
 #define SYS_getppid 26
 #define SYS_getptable 27
-#define SYS_sbrk   28
-#define SYS_sleep  29
-#define SYS_uptime 30
-#define SYS_open   31
-#define SYS_write  32
-#define SYS_mknod  33
-#define SYS_unlink 34
-#define SYS_link   35
-#define SYS_mkdir  36
-#define SYS_close  37
-#define SYS_kbdint 38
-#define SYS_shutdown 39
+#define SYS_shutdown 28
