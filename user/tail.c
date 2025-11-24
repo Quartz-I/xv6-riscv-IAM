@@ -14,15 +14,7 @@ int line_count = 0;
 void
 usage(void)
 {
-  printf(
-    "Usage: tail [OPTION] [FILE]\n"
-    "Print the last 10 lines of each FILE to standard output.\n"
-    "With more than one FILE, precede each with a header.\n"
-    "Options:\n"
-    "  -n N      print the last N lines instead of the last 10\n"
-    "  -N        same as -n N\n"
-    "  -?        display this help and exit\n"
-  );
+  printf("Usage: tail [-n number_of_lines] [file]\n deafult number_of_lines is 10");
 }
 
 

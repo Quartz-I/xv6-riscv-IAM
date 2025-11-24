@@ -129,6 +129,7 @@ UPROGS=\
 	$U/_sleep\
 	$U/_cp\
 	$U/_mv\
+	$U/_find\
 	$U/_touch\
 	$U/_cat\
 	$U/_tail\
