@@ -103,6 +103,8 @@ extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
 extern uint64 sys_kbdint(void);
 extern uint64 sys_countsyscall(void);
+extern uint64 sys_getrand(void);
+
 
 
 // An array mapping syscall numbers from syscall.h
@@ -131,6 +133,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_kbdint]  sys_kbdint,
 [SYS_countsyscall] sys_countsyscall,
+[SYS_getrand] sys_getrand,
+
 
 };
 

@@ -24,6 +24,7 @@ int sleep(int);
 int uptime(void);
 int kbdint(void);
 int countsyscall(void);
+int getrand(void);
 
 
 // ulib.c

@@ -31,6 +31,7 @@ OBJS = \
   $K/virtio_disk.o\
   $K/sysutil.o\
   $K/countsyscall.o \
+  $K/getrand.o \
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -150,6 +151,8 @@ UPROGS=\
 	$U/_zombie\
 	$U/_kbdint\
 	$U/_countsyscall\
+	$U/_getrand\
+
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
