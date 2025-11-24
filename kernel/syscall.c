@@ -102,6 +102,12 @@ extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
 extern uint64 sys_kbdint(void);
+extern uint64 sys_countsyscall(void);
+extern uint64 sys_getrand(void);
+extern uint64 sys_datetime(void);
+
+
+
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -128,7 +134,16 @@ static uint64 (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_kbdint]  sys_kbdint,
+[SYS_countsyscall] sys_countsyscall,
+[SYS_getrand] sys_getrand,
+[SYS_datetime] sys_datetime,
+
+
+
 };
+
+//counter of syscall
+int total_syscall_count = 0;
 
 void
 syscall(void)
@@ -140,6 +155,7 @@ syscall(void)
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
+    ++total_syscall_count;
     p->trapframe->a0 = syscalls[num]();
   } else {
     printf("%d %s: unknown sys call %d\n",

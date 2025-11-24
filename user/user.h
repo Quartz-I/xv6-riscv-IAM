@@ -23,6 +23,9 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int kbdint(void);
+int countsyscall(void);
+int getrand(void);
+
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -42,3 +45,7 @@ void *memcpy(void *, const void *, uint);
 // umalloc.c
 void* malloc(uint);
 void free(void*);
+
+
+//Datetime
+int datetime(struct datetime*);

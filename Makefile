@@ -1,6 +1,7 @@
 K=kernel
 U=user
 
+
 OBJS = \
   $K/entry.o \
   $K/start.o \
@@ -29,7 +30,10 @@ OBJS = \
   $K/kernelvec.o \
   $K/plic.o \
   $K/virtio_disk.o\
-  $K/sysutil.o
+  $K/sysutil.o\
+  $K/countsyscall.o \
+  $K/getrand.o \
+  $K/datetime.o \
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -78,6 +82,9 @@ endif
 ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]nopie'),)
 CFLAGS += -fno-pie -nopie
 endif
+
+#Datetime timestamp
+CFLAGS += -DBOOT_EPOCH=$(shell date +%s)
 
 LDFLAGS = -z max-page-size=4096
 
@@ -149,6 +156,12 @@ UPROGS=\
 	$U/_wc\
 	$U/_zombie\
 	$U/_kbdint\
+	$U/_countsyscall\
+	$U/_getrand\
+	$U/_getuptime\
+	$U/_datetime\
+
+
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

@@ -8,3 +8,12 @@ typedef unsigned int  uint32;
 typedef unsigned long uint64;
 
 typedef uint64 pde_t;
+
+struct datetime {
+  uint year;
+  uint month;
+  uint day;
+  uint hour;
+  uint minute;
+  uint second;
+};
