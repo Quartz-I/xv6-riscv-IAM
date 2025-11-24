@@ -81,6 +81,15 @@ struct trapframe {
 
 enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
+// Process information structure for getptable system call
+struct proc_info {
+  int pid;
+  int ppid;
+  int state;
+  char name[16];
+  uint64 sz;
+};
+
 // Per-process state
 struct proc {
   struct spinlock lock;
