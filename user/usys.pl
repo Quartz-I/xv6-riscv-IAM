@@ -39,3 +39,4 @@ entry("uptime");
 entry("kbdint");
 entry("countsyscall");
 entry("getrand");
+entry("datetime");

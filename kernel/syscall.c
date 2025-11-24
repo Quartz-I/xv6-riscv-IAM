@@ -104,6 +104,8 @@ extern uint64 sys_close(void);
 extern uint64 sys_kbdint(void);
 extern uint64 sys_countsyscall(void);
 extern uint64 sys_getrand(void);
+extern uint64 sys_datetime(void);
+
 
 
 
@@ -134,6 +136,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_kbdint]  sys_kbdint,
 [SYS_countsyscall] sys_countsyscall,
 [SYS_getrand] sys_getrand,
+[SYS_datetime] sys_datetime,
+
 
 
 };

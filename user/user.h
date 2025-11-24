@@ -45,3 +45,7 @@ void *memcpy(void *, const void *, uint);
 // umalloc.c
 void* malloc(uint);
 void free(void*);
+
+
+//Datetime
+int datetime(struct datetime*);
