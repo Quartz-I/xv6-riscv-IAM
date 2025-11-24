@@ -19,13 +19,15 @@ int mkdir(const char*);
 int chdir(const char*);
 int dup(int);
 int getpid(void);
+int getppid(void);
+int getptable(int, void*);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int kbdint(void);
 int countsyscall(void);
 int getrand(void);
-
+int shutdown(void);
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -45,7 +47,6 @@ void *memcpy(void *, const void *, uint);
 // umalloc.c
 void* malloc(uint);
 void free(void*);
-
 
 //Datetime
 int datetime(struct datetime*);

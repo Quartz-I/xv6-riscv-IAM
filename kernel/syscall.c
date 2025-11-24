@@ -91,6 +91,8 @@ extern uint64 sys_fstat(void);
 extern uint64 sys_chdir(void);
 extern uint64 sys_dup(void);
 extern uint64 sys_getpid(void);
+extern uint64 sys_getppid(void);
+extern uint64 sys_getptable(void);
 extern uint64 sys_sbrk(void);
 extern uint64 sys_sleep(void);
 extern uint64 sys_uptime(void);
@@ -105,9 +107,7 @@ extern uint64 sys_kbdint(void);
 extern uint64 sys_countsyscall(void);
 extern uint64 sys_getrand(void);
 extern uint64 sys_datetime(void);
-
-
-
+extern uint64 sys_shutdown(void);
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -123,6 +123,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_chdir]   sys_chdir,
 [SYS_dup]     sys_dup,
 [SYS_getpid]  sys_getpid,
+[SYS_getppid] sys_getppid,
+[SYS_getptable] sys_getptable,
 [SYS_sbrk]    sys_sbrk,
 [SYS_sleep]   sys_sleep,
 [SYS_uptime]  sys_uptime,
@@ -137,9 +139,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_countsyscall] sys_countsyscall,
 [SYS_getrand] sys_getrand,
 [SYS_datetime] sys_datetime,
-
-
-
+[SYS_shutdown] sys_shutdown,
 };
 
 //counter of syscall

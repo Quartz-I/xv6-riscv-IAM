@@ -22,6 +22,27 @@ sys_getpid(void)
 }
 
 uint64
+sys_getppid(void)
+{
+  struct proc *p = myproc();
+  if(p->parent)
+    return p->parent->pid;
+  return 0;  // init process has no parent
+}
+
+uint64
+sys_getptable(void)
+{
+  int nproc;
+  uint64 buffer;
+
+  argint(0, &nproc);
+  argaddr(1, &buffer);
+
+  return getptable(nproc, (char*)buffer);
+}
+
+uint64
 sys_fork(void)
 {
   return fork();
