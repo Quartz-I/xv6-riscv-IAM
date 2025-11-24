@@ -152,6 +152,8 @@ UPROGS=\
 	$U/_kbdint\
 	$U/_countsyscall\
 	$U/_getrand\
+	$U/_getuptime\
+
 
 
 fs.img: mkfs/mkfs README $(UPROGS)
