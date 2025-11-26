@@ -76,7 +76,7 @@ sys_datetime(void)
   release(&tickslock);
 
   // Calculate timestamp from boot epoch + ticks
-  uint64 timestamp = BOOT_EPOCH + (xticks / 10);
+  uint64 timestamp = BOOT_EPOCH + (xticks / 10) + 7200;
 
   timestamp_to_datetime(timestamp, &dt);
 
