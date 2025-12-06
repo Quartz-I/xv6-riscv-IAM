@@ -146,6 +146,12 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
+
+	// initialize new variables here
+  p->creation_time = ticks;
+  p->run_time = 0;
+
+
   return p;
 }
 
@@ -169,6 +175,10 @@ freeproc(struct proc *p)
   p->killed = 0;
   p->xstate = 0;
   p->state = UNUSED;
+
+
+  p->creation_time = ticks;
+  p->run_time = 0;
 }
 
 // Create a user page table for a given process, with no user memory,
@@ -441,6 +451,45 @@ wait(uint64 addr)
 //  - swtch to start running that process.
 //  - eventually that process transfers control
 //    via swtch back to the scheduler.
+
+
+
+void
+update_time()
+{
+  struct proc* p;
+  for (p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if (p->state == RUNNING) {
+      p->run_time++;
+    }
+
+    release(&p->lock);
+  }
+}
+
+
+int sched_mode = SCHED_ROUND_ROBIN;  // Assign the chosen scheduler here
+struct proc *choose_next_process() {
+
+  struct proc *p;
+
+  if(sched_mode == SCHED_ROUND_ROBIN) {
+    for(p = proc; p < &proc[NPROC]; p++) {
+      if (p->state == RUNNABLE)
+        return p;
+      }
+  }
+
+
+  // Add more else statements each time you create a new scheduler
+
+  return 0;
+}
+
+
+
+
 void
 scheduler(void)
 {
@@ -455,12 +504,13 @@ scheduler(void)
     intr_on();
 
     int found = 0;
-    for(p = proc; p < &proc[NPROC]; p++) {
+
+    p = choose_next_process();
+
+    if(p != 0) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE) {
-        // Switch to chosen process.  It is the process's job
-        // to release its lock and then reacquire it
-        // before jumping back to us.
+
+      if (p->state == RUNNABLE) {
         p->state = RUNNING;
         c->proc = p;
         swtch(&c->context, &p->context);
@@ -479,6 +529,7 @@ scheduler(void)
     }
   }
 }
+
 
 // Switch to scheduler.  Must hold only p->lock
 // and have changed proc->state. Saves and restores

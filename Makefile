@@ -163,6 +163,7 @@ UPROGS=\
 	$U/_datetime\
 	$U/_ps\
 	$U/_shutdown\
+	$U/_schedtest\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
