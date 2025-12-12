@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
 
   // shutdown takes no arguments
   if(argc != 1){
-    printf("Usage: shutdown\n");
     printf("shutdown takes no arguments. Use 'shutdown ?' for help\n");
     exit(1);
   }
