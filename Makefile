@@ -164,6 +164,8 @@ UPROGS=\
 	$U/_ps\
 	$U/_shutdown\
 	$U/_schedtest\
+	$U/_testfcfs\
+	$U/_testpriority\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

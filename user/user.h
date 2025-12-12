@@ -50,3 +50,9 @@ void free(void*);
 
 //Datetime
 int datetime(struct datetime*);
+
+
+// Scheduler system calls
+int setsched(int mode);
+int setpriority(int pid, int priority);
+int getschedmetrics(void);

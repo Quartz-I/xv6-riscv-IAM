@@ -6,6 +6,9 @@
 #include "proc.h"
 #include "defs.h"
 
+uint64 total_turnaround[SCHED_COUNT];
+uint64 total_waiting[SCHED_COUNT];
+uint64 completed_count[SCHED_COUNT];
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -147,10 +150,13 @@ found:
   p->context.sp = p->kstack + PGSIZE;
 
 
-	// initialize new variables here
+  //Part3
   p->creation_time = ticks;
   p->run_time = 0;
-
+  p->finish_time = 0;
+  p->static_priority = 10;  // Default priority
+  p->no_preempt = (sched_mode == SCHED_FCFS) ? 1 : 0;  // FCFS is non-preemptive
+  p->last_sched = sched_mode;
 
   return p;
 }
@@ -179,6 +185,12 @@ freeproc(struct proc *p)
 
   p->creation_time = ticks;
   p->run_time = 0;
+  p->creation_time = 0;
+  p->run_time = 0;
+  p->finish_time = 0;
+  p->static_priority = 10;
+  p->no_preempt = 0;
+  p->last_sched = 0;
 }
 
 // Create a user page table for a given process, with no user memory,
@@ -386,6 +398,7 @@ exit(int status)
   acquire(&p->lock);
 
   p->xstate = status;
+  p->finish_time = ticks;//part 3
   p->state = ZOMBIE;
 
   release(&wait_lock);
@@ -424,6 +437,25 @@ wait(uint64 addr)
             release(&wait_lock);
             return -1;
           }
+
+
+          //part 3
+          // Collect metrics before freeing the process
+          {
+            int sched_id = pp->last_sched;
+            if (sched_id < 0 || sched_id >= SCHED_COUNT)
+              sched_id = SCHED_ROUND_ROBIN;
+
+            uint64 turnaround = pp->finish_time - pp->creation_time;
+            uint64 waiting = turnaround - pp->run_time;
+            //if number of ticks is inconsistent
+            // uint64 waiting = turnaround > pp->run_time ? turnaround - pp->run_time : 0;
+
+            completed_count[sched_id]++;
+            total_turnaround[sched_id] += turnaround;
+            total_waiting[sched_id] += waiting;
+          }
+
           freeproc(pp);
           release(&pp->lock);
           release(&wait_lock);
@@ -461,7 +493,7 @@ update_time()
   for (p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if (p->state == RUNNING) {
-      p->run_time++;
+      p->run_time++;  // Increment run_time for running processes
     }
 
     release(&p->lock);
@@ -470,25 +502,70 @@ update_time()
 
 
 int sched_mode = SCHED_ROUND_ROBIN;  // Assign the chosen scheduler here
-struct proc *choose_next_process() {
 
+// Choose the next runnable process according to sched_mode.
+// IMPORTANT: this function does NOT acquire per-process locks.
+// The caller (scheduler()) must acquire p->lock before changing p->state.
+struct proc *
+choose_next_process(void)
+{
   struct proc *p;
+  struct proc *best = 0;
 
-  if(sched_mode == SCHED_ROUND_ROBIN) {
-    for(p = proc; p < &proc[NPROC]; p++) {
+  if (sched_mode == SCHED_ROUND_ROBIN) {
+    for (p = proc; p < &proc[NPROC]; p++) {
       if (p->state == RUNNABLE)
         return p;
-      }
+    }
+    return 0;
   }
 
+  if (sched_mode == SCHED_FCFS) {
+    // Pick the RUNNABLE process with the smallest creation_time.
+    for (p = proc; p < &proc[NPROC]; p++) {
+      if (p->state != RUNNABLE) continue;//if not runnable, skip
+      if (!best || p->creation_time < best->creation_time)//selects earliest creation time
+        best = p;
+    }
+    return best;
+  }
 
-  // Add more else statements each time you create a new scheduler
+  if (sched_mode == SCHED_PRIORITY) {
+    // Pick the RUNNABLE process with the lowest static_priority value.
+    for (p = proc; p < &proc[NPROC]; p++) {
+      if (p->state != RUNNABLE) continue;//if not runnable, skip
+      if (!best || p->static_priority < best->static_priority)
+        best = p;
+      else if (p->static_priority == best->static_priority) {
+        // tie-breaker: earlier creation_time
+        if (p->creation_time < best->creation_time)
+          best = p;
+      }
+    }
+    return best;
+  }
 
   return 0;
 }
 
 
-
+void
+print_sched_metrics(void)
+{
+  const char *names[] = {"RoundRobin", "FCFS", "Priority"};
+  printf("\n===== Scheduler Metrics =====\n");
+  for (int i = 0; i < SCHED_COUNT; i++) {
+    if (completed_count[i] == 0) {
+      printf("%s: no completed processes\n", names[i]);
+    } else {
+      uint64 avg_turn = total_turnaround[i] / completed_count[i];
+      uint64 avg_wait = total_waiting[i] / completed_count[i];
+      printf("%s: %d procs, avg_turnaround=%d, avg_waiting=%d\n",
+             names[i], (int)completed_count[i], (int)avg_turn, (int)avg_wait);
+    }
+  }
+  printf("=============================\n\n");
+}
 
 void
 scheduler(void)

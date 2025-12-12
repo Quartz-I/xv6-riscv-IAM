@@ -43,3 +43,6 @@ entry("countsyscall");
 entry("getrand");
 entry("datetime");
 entry("shutdown");
+entry("setsched");
+entry("setpriority");
+entry("getschedmetrics");

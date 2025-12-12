@@ -1,7 +1,8 @@
 // schedular constants to set the scheduling mode
 #define SCHED_ROUND_ROBIN 0
 #define SCHED_FCFS        1
-
+#define SCHED_PRIORITY    2
+#define SCHED_COUNT       3
 extern int sched_mode;  // Declare global scheduler mode
 
 
@@ -124,4 +125,11 @@ struct proc {
 
   uint creation_time;          // Ticks when process was created
   uint run_time;               // How long the process has run
+
+  //Part 3 metrics
+  uint finish_time;            // Ticks when process exited
+  int  static_priority;        // Lower number => higher priority (default e.g. 10)
+  int  no_preempt;             // When 1, timer interrupts won't preempt this proc (FCFS)
+  int  last_sched;             // scheduler id used while the process last ran (SCHED_*)
+  /* -------------------------------------------- */
 };
