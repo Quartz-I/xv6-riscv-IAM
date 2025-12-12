@@ -4,7 +4,7 @@
 #include "kernel/fs.h"
 
 void usage() {
-  printf("Usage: find [directory] [filename]\n");
+  printf("Usage: find directory filename\n");
 }
 
 void

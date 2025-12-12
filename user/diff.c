@@ -83,10 +83,9 @@ int main(int argc, char *argv[]) {
 
   // Check for help command
   if(argc == 2 && strcmp(argv[1], "?") == 0) {
-    printf("Usage: diff file1 file2\n");
-    printf("Compare two files line by line and report differences\n");
-    printf("  < indicates lines from the first file\n");
-    printf("  > indicates lines from the second file\n");
+    printf("Usage: diff filename1 filename2\n");
+    printf("  < shows lines from the first file\n");
+    printf("  > shows lines from the second file\n");
     exit(0);
   }
 
