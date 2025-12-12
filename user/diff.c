@@ -97,7 +97,6 @@ int main(int argc, char *argv[]) {
 
   // diff requires exactly two arguments
   if(argc != 3) {
-    printf("Usage: diff file1 file2\n");
     printf("diff requires exactly two file arguments. Use 'diff ?' for help\n");
     exit(1);
   }
