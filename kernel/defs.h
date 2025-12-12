@@ -108,7 +108,11 @@ int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 int             getptable(int, char*);
 void            update_time(void);
-
+// part 3
+uint64          sys_setsched(void);
+uint64          sys_setpriority(void);
+uint64          sys_getschedmetrics(void);
+void            print_sched_metrics(void);
 // swtch.S
 void            swtch(struct context*, struct context*);
 

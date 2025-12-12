@@ -112,3 +112,64 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+
+//part 3 syscalls
+
+
+// System call to set scheduler mode
+uint64
+sys_setsched(void)
+{
+  int mode;
+  argint(0, &mode);
+
+  if(mode < 0 || mode > 2)
+    return -1;
+
+  sched_mode = mode;
+
+  // Update no_preempt for all processes
+  extern struct proc proc[NPROC];
+  struct proc *p;
+  for(p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if(p->state != UNUSED) {
+      p->no_preempt = (mode == SCHED_FCFS) ? 1 : 0;
+    }
+    release(&p->lock);
+  }
+
+  return 0;
+}
+
+// System call to set process priority
+uint64
+sys_setpriority(void)
+{
+  int pid, priority;
+  argint(0, &pid);
+  argint(1, &priority);
+
+  extern struct proc proc[NPROC];
+  struct proc *p;
+  for(p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if(p->pid == pid) {
+      p->static_priority = priority;
+      release(&p->lock);
+      return 0;
+    }
+    release(&p->lock);
+  }
+  return -1;
+}
+
+// System call to get scheduling metrics
+uint64
+sys_getschedmetrics(void)
+{
+  print_sched_metrics();
+  return 0;
+}

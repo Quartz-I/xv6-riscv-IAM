@@ -27,3 +27,8 @@
 #define SYS_getppid 26
 #define SYS_getptable 27
 #define SYS_shutdown 28
+
+//Part 3
+#define SYS_setsched 29
+#define SYS_setpriority 30
+#define SYS_getschedmetrics 31

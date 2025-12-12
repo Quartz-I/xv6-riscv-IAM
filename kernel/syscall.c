@@ -109,9 +109,20 @@ extern uint64 sys_getrand(void);
 extern uint64 sys_datetime(void);
 extern uint64 sys_shutdown(void);
 
+//part 3
+extern uint64 sys_setsched(void);
+extern uint64 sys_setpriority(void);
+extern uint64 sys_getschedmetrics(void);
+
+
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
 static uint64 (*syscalls[])(void) = {
+//part 3
+[SYS_setsched]   sys_setsched,
+[SYS_setpriority] sys_setpriority,
+[SYS_getschedmetrics] sys_getschedmetrics,
+
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
 [SYS_wait]    sys_wait,

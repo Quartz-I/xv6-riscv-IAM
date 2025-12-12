@@ -77,8 +77,13 @@ usertrap(void)
     exit(-1);
 
   // give up the CPU if this is a timer interrupt.
-  if(which_dev == 2)
-    yield();
+  if(which_dev == 2 && myproc() != 0) {
+    struct proc *p = myproc();
+    // Only yield if preemption is allowed (not FCFS mode)
+    if(p->no_preempt == 0) {
+      yield();
+    }
+}
 
   usertrapret();
 }
