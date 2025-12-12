@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 
   // Check for correct number of arguments
   if(argc != 3){
-    printf("Usage: mv source destination\n");
+    printf("Invalid number of arguments\n");
     exit(1);
   }
 
