@@ -122,7 +122,6 @@ main(int argc, char *argv[])
         show_longest = 1;
       else{
         printf("wc: invalid option '%c'\n", flag[j]);
-        printf("Usage: wc [-l] [-w] [-c] [-L] [file ...]\n");
         exit(1);
       }
     }

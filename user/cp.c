@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 
   // Check for correct number of arguments
   if(argc != 3){
-    printf("Usage: cp source destination\n");
+    printf("Error: only takes 2 arguments\n");
     exit(1);
   }
 
